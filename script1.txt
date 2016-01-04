@@ -1,0 +1,26 @@
+
+CREATE OR REPLACE TYPE Etudiants_ty AS OBJECT (  
+  numEtudiant VARCHAR(5),
+  nomEtudiant VARCHAR(20),
+  PrenomEtudiant VARCHAR(20)
+);
+CREATE  OR REPLACE TYPE Entreprises_ty AS OBJECT 
+(  
+  numEntreprise VARCHAR(5),
+  nomEntreprise VARCHAR(20)
+);
+CREATE OR REPLACE  TYPE Stages_ty AS OBJECT 
+(  
+  numStage VARCHAR(5),
+  dateStage DATE,
+  etudiantStage Etudiants_ty,
+  entrepriseStage Entreprises_ty
+);
+
+CREATE TABLE statistique (
+)
+
+CREATE TABLE Stages OF Stages_ty(numStage PRIMARY KEY);
+
+
+
