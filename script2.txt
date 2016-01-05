@@ -1,0 +1,24 @@
+--Insertions dans les tables
+
+INSERT INTO Entreprises VALUES(1,'MaanCorporation', 'Epinay-sur-orge', '91');
+INSERT INTO Entreprises VALUES(2,'CraftStudio', 'Evry', '91');
+INSERT INTO Entreprises VALUES(3,'Umbrella', 'Paris', '75');
+INSERT INTO Entreprises VALUES(4,'TeamEnterprise', 'Paris', '75');
+INSERT INTO Entreprises VALUES(5,'lieIsACake', 'Paris', '75');
+INSERT INTO Entreprises VALUES(6,'ThisIsNotACompany', 'Paris', '75');
+INSERT INTO Entreprises VALUES(7,'Inb4Stage', 'Paris', '75');
+
+INSERT INTO Etudiants VALUES(1,'DeOliveira','Joe');
+INSERT INTO Etudiants VALUES(2,'Gilain','Pierre');
+INSERT INTO Etudiants VALUES(3,'Androny','Thibault');
+INSERT INTO Etudiants VALUES(4,'Nadarajah','Johnathan');
+INSERT INTO Etudiants VALUES(5,'Bonnaparte','Géain');
+INSERT INTO Etudiants VALUES(6,'Imcepeu','Vincent');
+INSERT INTO Etudiants VALUES(7,'Tuder','Hubert');
+
+INSERT INTO Stages VALUES(1,'StageDevArchi1',(TO_DATE('2016/04/15','yyyy/mm/dd')),2,7);
+INSERT INTO Stages VALUES(2,'StageDevArchi2',(TO_DATE('2016/04/15','yyyy/mm/dd')),3,7);
+INSERT INTO Stages VALUES(3,'StageDevArchi3',(TO_DATE('2016/04/15','yyyy/mm/dd')),5,7);
+INSERT INTO Stages VALUES(4,'StageDevArchi4',(TO_DATE('2016/04/15','yyyy/mm/dd')),4,7);
+INSERT INTO Stages VALUES(5,'StageWebPlatform',(TO_DATE('2016/04/17','yyyy/mm/dd')),7,2);
+INSERT INTO Stages VALUES(6,'StageDevUnix',(TO_DATE('2012/04/17','yyyy/mm/dd')),6,1);

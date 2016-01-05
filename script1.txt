@@ -1,26 +1,29 @@
+--Creation des tables
 
-CREATE OR REPLACE TYPE Etudiants_ty AS OBJECT (  
-  numEtudiant VARCHAR(5),
-  nomEtudiant VARCHAR(20),
-  PrenomEtudiant VARCHAR(20)
-);
-CREATE  OR REPLACE TYPE Entreprises_ty AS OBJECT 
-(  
-  numEntreprise VARCHAR(5),
-  nomEntreprise VARCHAR(20)
-);
-CREATE OR REPLACE  TYPE Stages_ty AS OBJECT 
-(  
-  numStage VARCHAR(5),
-  dateStage DATE,
-  etudiantStage Etudiants_ty,
-  entrepriseStage Entreprises_ty
-);
-
-CREATE TABLE statistique (
+CREATE TABLE Entreprises
+(
+    numEntreprise VARCHAR(5),
+    nomEntreprise VARCHAR(20),
+    ville VARCHAR(20),
+    departement VARCHAR(20),
+    PRIMARY KEY (numEntreprise)
 )
 
-CREATE TABLE Stages OF Stages_ty(numStage PRIMARY KEY);
+CREATE TABLE Etudiants
+(
+    numEtudiant VARCHAR(5),
+    nomEtudiant VARCHAR(20),
+    PRIMARY KEY (numEtudiant)
+)
 
-
-
+CREATE TABLE Stages
+(
+    numStage VARCHAR(5),
+    nomStage VARCHAR(20),
+    dateStage DATE,
+    etudiantStage VARCHAR(20),
+    entrepriseStage VARCHAR(20),
+    PRIMARY KEY (NumStage),
+    FOREIGN KEY (etudiantStage) REFERENCES Etudiants(numEtudiant),
+    FOREIGN KEY (entrepriseStage) REFERENCES Entreprises(numEntreprise)
+)
