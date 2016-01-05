@@ -1,5 +1,6 @@
 package modele;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Scanner;
 
 import controleur.saisie;
 
@@ -85,13 +87,14 @@ public class BD {
 		/*
 		 * Connection myconnexion = DriverManager.getConnection(url); Statement
 		 * stmt = myconnexion.createStatement ( ); ResultSet rs =
-		 * stmt.executeQuery ("SELECT * FROM ENS2004.EXEMPLAIRE");
+		 * stmt.executeQuery ("SELECT * FROM STAGE");
 		 * ResultSetMetaData rsmd = rs.getMetaData ( ); int numberOfColumns =
 		 * rsmd.getColumnCount ( );
 		 */
+		
 		String url = "jdbc:oracle:thin:jnadara/jnforce95@oracle.iut-orsay.fr:1521:etudom";
 		Connection co = BD.openConnection(url);
-
+		/*
 		System.out
 				.println("Veuillez saisir l'annee souhaite pour la recherche: \t");
 		int annee = saisie.entier();
@@ -101,7 +104,18 @@ public class BD {
 		ResultSet rs = exec1Requete(req, co, 0);
 		while (rs.next()) {
 			nbEtudiant.add(rs.getInt(1));
-		}
+		}*/
+		System.out.println("Veuillez saisir l'annee souhaite pour la recherche: \t");
+		Scanner sc=new Scanner(System.in);
+		String annee=sc.nextLine();
+		// Appel de la fonction PL_SQL
+		CallableStatement cst = co.prepareCall(" {call nbEtu ( ?, ? ) } ");
+		cst.setString(1, annee);
+		cst.registerOutParameter (2,java.sql.Types.VARCHAR);
+		cst.execute();
+		nbEtudiant.add(cst.getInt(2));
+		System.out.println("Prenom : "+nbEtudiant);
+		cst.close();
 		closeConnection(co);
 		System.out
 				.println("Récupération du nombre d'etudiant ayant un stage : OK !");
@@ -129,7 +143,7 @@ public class BD {
 
 		int curYear = Calendar.getInstance().get(Calendar.YEAR);
 		System.out.println("Les etudiants ayant un stage cette annee sont : \t");
-
+		/*
 		String req = "SELECT COUNT(numEtudiant) FROM Stage WHERE annee="
 				+ curYear + "ORDER BY COUNT(numEtudiant) DESC";
 		ResultSet rs = exec1Requete(req, co, 0);
@@ -137,8 +151,20 @@ public class BD {
 			nbEtudiant.add(rs.getInt(1));
 		}
 		closeConnection(co);
+		*/
 		System.out.println("Récupération du nombre d'etudiant ayant un stage cette annee : OK !");
+		
+		// Appel de la fonction PL_SQL
+		CallableStatement cst = co.prepareCall(" {call nbEtuAnn ( ?, ?) } ");
+		cst.setInt(1, curYear);
+		cst.registerOutParameter (2,java.sql.Types.VARCHAR);
+		cst.execute();
+		nbEtudiant.add(cst.getInt(2));
 
+		System.out.println("nb Etudiant : "+nbEtudiant);
+
+		cst.close();
+		closeConnection(co);
 	}
 	/**
 	 * Récupére le nombre d'étudiants sans stage de cette année
@@ -148,44 +174,6 @@ public class BD {
 		
 	}
 	public static void main(String[] args) throws SQLException {
-		/*
-		//Connection myconnexion = DriverManager.getConnection(url);
-		BD bd = new BD();
-		String url = "jdbc:oracle:thin:jnadara/jnforce95@oracle.iut-orsay.fr:1521:etudom";
-		Connection co = bd.openConnection(url);
-		System.out.println("Veuillez saisir le nom de l'acteur : \t");
-		String annee = saisie.chaine();
-		// Pour trouver l'acteur avec le nom saisie par l'utilisateur
-		String req1 = "select distinct prenomindividu,nomindividu from ENS2004.INDIVIDU I,ENS2004.ACTEUR A where a.numindividu=i.numindividu  and i.nomindividu = ?";
-		PreparedStatement psm1 = myconnexion.prepareStatement(req1);
-		psm1.setString(1, annee);
-		ResultSet rs1 = psm1.executeQuery();
-
-		// Pour trouver les films où l'acteur, saisie par l'utilisateur, à jouer
-		String req2 = "Select f.TITRE from ENS2004.FILM f,ENS2004.ACTEUR a,ENS2004.INDIVIDU i where f.NUMFILM = a.NUMFILM and i.NUMINDIVIDU = a.NUMINDIVIDU and i.NOMINDIVIDU= ?";
-		PreparedStatement psm2 = myconnexion.prepareStatement(req2);
-		psm2.setString(1, nomActeur.toUpperCase());
-		ResultSet rs2 = psm2.executeQuery();
-
-		System.out.println("Voici les resultats : ");
-		System.out.println("\n----------------------------------");
-
-		while (rs1.next()) {
-			System.out.print("\t" + rs1.getString(1) + "\t |");
-			System.out.print("\t" + rs1.getString(2) + "\t |");
-			System.out.println("\n----------------------------------");
-
-		}
-		psm1.close();
-
-		System.out.println("les films : ");
-		System.out.println("\n----------------------------------");
-
-		while (rs2.next()) {
-			System.out.print("\t" + rs2.getString(1) + "\t |");
-			System.out.println("\n----------------------------------");
-
-		}
-		psm2.close();
-	}*/
+		
+	}
 }
