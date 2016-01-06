@@ -13,8 +13,11 @@ CREATE TABLE Etudiants
 (
     numEtudiant VARCHAR(5),
     nomEtudiant VARCHAR(20),
+    prenomEtudiant VARCHAR(20),
+    promotionEtudiant VARCHAR(20),
     PRIMARY KEY (numEtudiant)
 )
+
 
 CREATE TABLE Stages
 (

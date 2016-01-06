@@ -28,3 +28,20 @@ CREATE OR REPLACE FUNCTION Request2_etudiantSansStage RETURN int IS etudiantSans
           );
     RETURN etudiantSansStage;
   END;
+
+--requete3
+
+CREATE OR REPLACE FUNCTION Request3_etudiantNoStageAnnee(varDateStage in VARCHAR) RETURN int IS etudiantAvecStage int;
+  BEGIN
+    SELECT COUNT(*) INTO etudiantAvecStage
+    FROM  ETUDIANTS
+    WHERE PROMOTIONETUDIANT=varDateStage
+    AND ETUDIANTS.NUMETUDIANT NOT IN
+    (
+      SELECT ETUDIANTS.NUMETUDIANT
+      FROM ETUDIANTS,STAGES
+      WHERE ETUDIANTS.NUMETUDIANT = STAGES.ETUDIANTSTAGE
+      AND to_char(dateStage,'YYYY')=varDateStage
+    );
+    RETURN etudiantAvecStage;
+  END;
