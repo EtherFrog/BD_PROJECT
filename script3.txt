@@ -8,3 +8,23 @@ CREATE OR REPLACE FUNCTION Request1_etudiantAvecStage RETURN int IS etudiantAvec
     RETURN etudiantAvecStage;
   END;
   
+
+--requete2
+
+CREATE OR REPLACE FUNCTION Request2_etudiantSansStage RETURN int IS etudiantSansStage int;
+  BEGIN
+    SELECT COUNT(*) INTO etudiantSansStage
+    FROM ETUDIANTS
+    WHERE NUMETUDIANT NOT IN
+          ( SELECT ETUDIANTS.NUMETUDIANT
+            FROM STAGES, ETUDIANTS
+           WHERE STAGES.ETUDIANTSTAGE = ETUDIANTS.NUMETUDIANT
+          )
+    AND NUMETUDIANT NOT IN
+          ( SELECT ETUDIANTS.NUMETUDIANT
+           FROM STAGES, ETUDIANTS
+           WHERE STAGES.ETUDIANTSTAGE = ETUDIANTS.NUMETUDIANT 
+           AND to_char(dateStage,'YYYY') != to_char(SYSDATE,'YYYY')
+          );
+    RETURN etudiantSansStage;
+  END;
