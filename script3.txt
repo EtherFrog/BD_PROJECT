@@ -1,4 +1,3 @@
-
 --requete1
 CREATE OR REPLACE FUNCTION Request1_etudiantAvecStage RETURN int IS etudiantAvecStage int;
   BEGIN
@@ -8,9 +7,7 @@ CREATE OR REPLACE FUNCTION Request1_etudiantAvecStage RETURN int IS etudiantAvec
     RETURN etudiantAvecStage;
   END;
   
-
 --requete2
-
 CREATE OR REPLACE FUNCTION Request2_etudiantSansStage RETURN int IS etudiantSansStage int;
   BEGIN
     SELECT COUNT(*) INTO etudiantSansStage
@@ -30,7 +27,6 @@ CREATE OR REPLACE FUNCTION Request2_etudiantSansStage RETURN int IS etudiantSans
   END;
 
 --requete3
-
 CREATE OR REPLACE FUNCTION Request3_etudiantNoStageAnnee(varDateStage in VARCHAR) RETURN int IS etudiantAvecStage int;
   BEGIN
     SELECT COUNT(*) INTO etudiantAvecStage
@@ -45,3 +41,28 @@ CREATE OR REPLACE FUNCTION Request3_etudiantNoStageAnnee(varDateStage in VARCHAR
     );
     RETURN etudiantAvecStage;
   END;
+
+--requete4
+create or replace FUNCTION Request4_entrepriseStageAnnee(varDateStage in VARCHAR) RETURN int IS etudiantAvecStage int;
+  BEGIN
+      SELECT  SUM(COUNT(ENTREPRISES.NUMENTREPRISE)) INTO etudiantAvecStage
+      FROM ENTREPRISES,STAGES
+      WHERE ENTREPRISES.NUMENTREPRISE = STAGES.ENTREPRISESTAGE
+      AND to_char(dateStage,'YYYY')>to_char(SYSDATE,'YYYY')-varDateStage
+      GROUP BY ENTREPRISES.NOMENTREPRISE;
+    RETURN etudiantAvecStage;
+  END;
+
+
+--requete5
+create or replace FUNCTION Request5_entrepriseStageAvrg(varDateStage in VARCHAR) RETURN float IS entrepriseStage float;
+  BEGIN
+      SELECT  AVG(CAST (COUNT(ENTREPRISES.NUMENTREPRISE) AS FLOAT)) INTO entrepriseStage
+      FROM ENTREPRISES,STAGES
+      WHERE ENTREPRISES.NUMENTREPRISE = STAGES.ENTREPRISESTAGE
+      AND to_char(dateStage,'YYYY')>to_char(SYSDATE,'YYYY')-varDateStage
+      GROUP BY ENTREPRISES.NOMENTREPRISE;
+    RETURN entrepriseStage;
+  END;
+
+
