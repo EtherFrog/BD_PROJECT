@@ -1,0 +1,10 @@
+
+--requete1
+CREATE OR REPLACE FUNCTION Request1_etudiantAvecStage RETURN int IS etudiantAvecStage int;
+  BEGIN
+    SELECT COUNT(*) INTO etudiantAvecStage
+    FROM STAGES
+    WHERE to_char(dateStage,'YYYY')=to_char(SYSDATE,'YYYY');
+    RETURN etudiantAvecStage;
+  END;
+  
